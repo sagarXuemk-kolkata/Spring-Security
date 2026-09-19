@@ -32,13 +32,20 @@ public class UserService {
         Set<UserRole> roles = new HashSet<>();
 
         for(String roleName:request.getRoles()) {
-            UserRole role = roleRepo.findByRoleName(roleName)   // findByRoleName return UserRole class
-                    .orElseGet(()->{
-                        UserRole newRole = new UserRole();
-                        newRole.setRoleName(roleName);
-                        return roleRepo.save(newRole);
-                    });
+//            UserRole role = roleRepo.findByRoleName(roleName)   // findByRoleName return UserRole class
+//                    .orElseGet(()->{
+//                        UserRole newRole = new UserRole();
+//                        newRole.setRoleName(roleName);
+//                        return roleRepo.save(newRole);
+//                    });
+//            role.setMyUser(myUser);
+//            roles.add(role);
+
+            UserRole role = new UserRole();
+            role.setRoleName(roleName);
+            // connect role to user
             role.setMyUser(myUser);
+
             roles.add(role);
         }
         myUser.setRoles(roles);
