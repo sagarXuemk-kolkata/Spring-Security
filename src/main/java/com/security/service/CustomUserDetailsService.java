@@ -24,6 +24,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         System.out.println("========== LOGIN START ==========");
         System.out.println("Username received: " + username);
 
+        /*
+        *Error:
+        * when executes: userRepo.findByUsername(username) hibernate loads MyUser, username and password
+        * but doesn't load roles because @OneToMany is LAZY by default.
+        * So after execute it session closed.
+        * When in second time when use user.getRoles().stream() because of session close
+        * it throw error. To solve this problem we use @Transactional Annotation.
+        * */
         MyUser user=userRepo.findByUsername(username)
                 .orElseThrow(()->new UsernameNotFoundException("User not Found."));
 
